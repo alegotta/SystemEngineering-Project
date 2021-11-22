@@ -1,8 +1,8 @@
-name: Project Tests
+name: Test Project
 on:
-  push:
-    branches:
-      - 'main'
+#  push:
+#    branches:
+#      - 'main'
   pull_request:
     branches:
       - 'main'
