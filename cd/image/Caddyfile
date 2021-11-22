@@ -4,8 +4,6 @@
 }
 
 :80 {
-	@proxied path /api/* /docs /openapi.json
-
 	@static {
 		file
 		path *.ico *.css *.js *.gif *.jpg *.jpeg *.png *.svg *.woff *.woff2 *.webp
@@ -20,9 +18,9 @@
 		file_server
 	}
 
-	handle @proxied {
+	handle /api/* {
 		uri strip_suffix /
-		reverse_proxy http://127.0.0.1:9000
+		reverse_proxy backend:9000
 	}
 
 	handle {
