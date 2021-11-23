@@ -48,6 +48,11 @@ RUN apt-get update \
     debian-keyring \
     debian-archive-keyring \
     apt-transport-https \
+    && curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | apt-key add - \
+    && curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list \
+    && apt-get update \
+    && apt-get install --no-install-recommends -y \
+    caddy \
     && pip install -U --no-cache-dir pip
 
 # install poetry - respects $POETRY_VERSION & $POETRY_HOME
@@ -77,6 +82,7 @@ RUN apt-get update \
 # copying poetry and venv into image
 COPY --from=builder-base $POETRY_HOME $POETRY_HOME
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
+COPY --from=builder-base /usr/bin/caddy /usr/bin/caddy
 
 # copy backend
 COPY ./mealie $MEALIE_HOME/mealie
@@ -91,6 +97,7 @@ WORKDIR /
 # copy frontend
 COPY --from=frontend-build /app/dist $MEALIE_HOME/dist
 COPY ./dev/data/templates $MEALIE_HOME/data/templates
+COPY ./cd/image/Caddyfile $MEALIE_HOME
 
 VOLUME [ "$MEALIE_HOME/data/" ]
 VOLUME [ "$MEALIE_HOME/dist/" ]
