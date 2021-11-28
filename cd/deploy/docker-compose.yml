@@ -1,0 +1,47 @@
+version: "3.9"
+services:
+  backend:
+    image: alegotta/mealie:latest
+    restart: unless-stopped
+    environment:
+      - DB_ENGINE=postgres
+      - POSTGRES_USER=mealie
+      - POSTGRES_PASSWORD=mealie
+      - POSTGRES_SERVER=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=mealie
+      - PRODUCTION=True
+      - API_PORT=9000
+      - API_DOCS=False
+    container_name: backend
+    depends_on:
+      - "postgres"
+    ports:
+      - 80:80
+    volumes:
+      - data:/app/data
+
+  postgres:
+    container_name: postgres
+    image: postgres:alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=mealie
+      - POSTGRES_PASSWORD=mealie
+      - POSTGRES_SERVER=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=mealie
+    volumes:
+     - db:/var/lib/postgresql/data
+
+volumes:
+  data:
+    driver: azure_file
+    driver_opts:
+      share_name: mealiedata
+      storage_account_name: mealiestorageacc
+  db:
+    driver: azure_file
+    driver_opts:
+      share_name: mealiedb
+      storage_account_name: mealiestorageacc

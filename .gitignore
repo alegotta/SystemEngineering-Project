@@ -158,5 +158,5 @@ dev/code-generation/generated/*
 
 # Terraform
 .terraform
-cd/deploy
-.github/workflows/terraform-deploy.yml
+*.tfstate*
+*.hcl

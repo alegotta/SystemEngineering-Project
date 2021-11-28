@@ -1,0 +1,25 @@
+name: Deploy to Azure
+on:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - 'main'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: hashicorp/setup-terraform@v1
+
+    - name: Inizialize Terraform
+      run: terraform -chdir=cd/deploy init
+
+    - name: Validate the plan
+      run: terraform -chdir=cd/deploy plan -no-color
+
+    - name: Apply the deloyment
+      run: terraform -chdir=cd/deploy apply -auto-approve
