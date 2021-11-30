@@ -1,4 +1,11 @@
 terraform {
+  backend "remote" {
+    organization = "mealie"
+
+    workspaces {
+      name = "mealie"
+    }
+  }
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
