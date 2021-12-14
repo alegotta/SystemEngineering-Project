@@ -4,34 +4,23 @@
 
 Source code from [mealie](https://github.com/hay-kot/mealie)
 
-## Initials
+## Description
 
 **Goal**: automatize the integration and deployment of [grocy](https://github.com/alegotta/grocy)
 
-**Workflow**:
-1) the python docker image is build at every commit on `main`, or when a `tag` is added
-2) the image is then pushed to Docker Hub (see [here](https://hub.docker.com/u/alegotta)
-3) an Azure instance (web server + PHP image + database) is created or updated
+**Pipeline workflow**:
+1) the project is tested
+2) the python docker image is build at every commit on `main`, or when a `tag` is added
+3) the image is then pushed to Docker Hub (see [here](https://hub.docker.com/u/alegotta)
+4) an Azure instance (web server + PHP image + database) is created or updated
 
-**How**:
-1) Github Actions
-2) Docker
-3) ?
+**Implementation**:
+1) PyTest
+2) Github Actions
+3) Docker
+4) Terraform + azurerm module. The state is handled by either Terraform Cloud or Gitlab
 
-## Possible strategies for point 3
-
-### Using `docker-compose`
-
-- Define the infrastructure using docker-compose
-- Push the configuration to Azure using its command line interface through Github Actions
-
-See [here](https://docs.microsoft.com/en-us/azure/container-instances/tutorial-docker-compose).
-
-### Using `kubernetes`
-
-- Define the infrastructure using kubernetes (practical example [here](https://github.com/kadnan/LearningK8s))
-- Create a new [cluster](https://learn.hashicorp.com/tutorials/terraform/aks)
-- Push the configuration to Azure using Terraform (see [here](https://learn.hashicorp.com/tutorials/terraform/kubernetes-provider))
+See the pipeline report on [GitHub](https://github.com/alegotta/SystemEngineering-Project/actions) and [Gitlab](https://gitlab.inf.unibz.it/Alessandro.Gottardi/mealie/-/tree/gitlab_ci).
 
 ## References
 
