@@ -1,5 +1,10 @@
 terraform {
-  backend "http" {
+  backend "remote" {
+    organization = "mealie"
+
+    workspaces {
+      name = "mealie"
+    }
   }
   required_providers {
     azurerm = {
